@@ -5,7 +5,9 @@
 /Packaged/
 /Saved/
 /Releases/
-/Content/
+
+# ignore subdirectories but not top level files
+/Content/*/
 
 # Ignore Plugins build and temp folders
 /Plugins/**/Binaries
