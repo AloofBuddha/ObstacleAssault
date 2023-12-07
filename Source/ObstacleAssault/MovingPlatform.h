@@ -23,6 +23,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere)
-	FVector PlayerPositionVector = FVector(-13290.0, -2240.0, 4056.0);
+	FVector MovingVelocity = FVector(20, 0, -9);
+	float UpperBoundX = -12000;
+	float LowerBoundX = -3200;
 };

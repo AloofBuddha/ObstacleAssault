@@ -13,14 +13,24 @@ AMovingPlatform::AMovingPlatform()
 void AMovingPlatform::BeginPlay()
 {
 	Super::BeginPlay();
-
-	FVector InFrontOfPlayer = PlayerPositionVector + FVector(200, 0, 0);
-
-	SetActorLocation(InFrontOfPlayer);
 }
 
 // Called every frame
 void AMovingPlatform::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	// get location
+	FVector PlatformLocation = GetActorLocation();
+
+	// switch velocity if at either bounds
+	if (PlatformLocation.X < UpperBoundX || PlatformLocation.X > LowerBoundX)
+	{
+		MovingVelocity *= -1;
+	}
+
+	// update location
+	PlatformLocation += MovingVelocity;
+	// set location
+	SetActorLocation(PlatformLocation);
 }
