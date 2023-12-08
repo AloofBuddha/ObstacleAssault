@@ -13,6 +13,8 @@ AMovingPlatform::AMovingPlatform()
 void AMovingPlatform::BeginPlay()
 {
 	Super::BeginPlay();
+
+	StartLocation = GetActorLocation();
 }
 
 // Called every frame
@@ -23,14 +25,22 @@ void AMovingPlatform::Tick(float DeltaTime)
 	// get location
 	FVector PlatformLocation = GetActorLocation();
 
-	// switch velocity if at either bounds
-	if (PlatformLocation.X < LowerBoundX || PlatformLocation.X > UpperBoundX)
-	{
-		MovingVelocity *= -1;
-	}
+	// update location by velocity
+	PlatformLocation += PlatformVelocity * DeltaTime;
 
-	// update location
-	PlatformLocation += MovingVelocity;
 	// set location
 	SetActorLocation(PlatformLocation);
+
+	// Calculate Distance Travelled for reverse
+	DistanceMoved = FVector::Dist(StartLocation, PlatformLocation);
+
+	if (DistanceMoved > MoveDistance)
+	{
+		// reverse course
+		PlatformVelocity *= -1;
+		// reset DistanceMoved
+		DistanceMoved = -1;
+		// set start location to current point for future calculations of distance
+		StartLocation = PlatformLocation;
+	}
 }
