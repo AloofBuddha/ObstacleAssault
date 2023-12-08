@@ -24,6 +24,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	FVector MovingVelocity = FVector(20, 0, -9);
-	float UpperBoundX = -12000;
-	float LowerBoundX = -3200;
+	float LowerBoundX = -12000;
+	float UpperBoundX = -3200;
 };

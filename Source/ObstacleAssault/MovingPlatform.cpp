@@ -24,7 +24,7 @@ void AMovingPlatform::Tick(float DeltaTime)
 	FVector PlatformLocation = GetActorLocation();
 
 	// switch velocity if at either bounds
-	if (PlatformLocation.X < UpperBoundX || PlatformLocation.X > LowerBoundX)
+	if (PlatformLocation.X < LowerBoundX || PlatformLocation.X > UpperBoundX)
 	{
 		MovingVelocity *= -1;
 	}
