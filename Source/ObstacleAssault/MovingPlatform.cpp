@@ -39,7 +39,7 @@ void AMovingPlatform::Tick(float DeltaTime)
 		// reverse course
 		PlatformVelocity *= -1;
 		// reset DistanceMoved
-		DistanceMoved = -1;
+		DistanceMoved = 0;
 		// set start location to current point for future calculations of distance
 		StartLocation = PlatformLocation;
 	}
