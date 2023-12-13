@@ -22,6 +22,12 @@ void AMovingPlatform::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	MovePlatform(DeltaTime);
+	RotatePlatform(DeltaTime);
+}
+
+void AMovingPlatform::MovePlatform(float DeltaTime)
+{
 	// get location
 	FVector PlatformLocation = GetActorLocation();
 
@@ -31,16 +37,31 @@ void AMovingPlatform::Tick(float DeltaTime)
 	// set location
 	SetActorLocation(PlatformLocation);
 
-	// Calculate Distance Travelled for reverse
-	DistanceMoved = FVector::Dist(StartLocation, PlatformLocation);
-
-	if (DistanceMoved > MoveDistance)
+	if (ShouldPlatformReturn())
 	{
+		float OvershotDistance = DistanceMoved - MoveDistance;
 		// reverse course
 		PlatformVelocity *= -1;
 		// reset DistanceMoved
 		DistanceMoved = 0;
 		// set start location to current point for future calculations of distance
 		StartLocation = PlatformLocation;
+
+		UE_LOG(LogTemp, Display, TEXT("%s overshot by: %f"), *GetName(), OvershotDistance);
 	}
+}
+
+void AMovingPlatform::RotatePlatform(float DeltaTime)
+{
+	AddActorLocalRotation(RotationalVelocity * DeltaTime);
+}
+
+bool AMovingPlatform::ShouldPlatformReturn() const
+{
+	return GetDistanceMoved() > MoveDistance;
+}
+
+float AMovingPlatform::GetDistanceMoved() const
+{
+	return FVector::Dist(StartLocation, GetActorLocation());
 }
